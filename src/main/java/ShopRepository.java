@@ -48,18 +48,19 @@ public class ShopRepository {
     }
 
     public void remove(int id) {
-        Product[] tmp = new Product[products.length - 1];
-        int copyToIndex = 0;
-        for (Product product : products) {
-            if (product.getId() != id && findById(id) != null) {
-                tmp[copyToIndex] = product;
-                copyToIndex++;
-            } else if (findById(id) == null) {
-                throw new NotFoundException(
-                        "Element with id: " + id + " not found"
-                );
-            }
+        if (findById(id) == null) {
+            throw new NotFoundException(
+                    "Element with id: " + id + " not found"
+            );
         }
-        products = tmp;
+        Product[] tmp = new Product[products.length - 1];
+            int copyToIndex = 0;
+            for (Product product : products) {
+                if (product.getId() != id && findById(id) != null) {
+                    tmp[copyToIndex] = product;
+                    copyToIndex++;
+                }
+            }
+            products = tmp;
+        }
     }
-}
